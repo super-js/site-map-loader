@@ -48,8 +48,8 @@ export function generateSiteMap(routeGenerators: SiteMapGenerator[], parentRoute
     }, []);
 }
 
-export function getIndexedSiteMap(siteMap: SiteMap): IndexedSiteMap {
-    let routeTreeIndex = {} as IndexedSiteMap;
+export function getIndexedSiteMap<T extends string>(siteMap: SiteMap): IndexedSiteMap<T> {
+    let routeTreeIndex = {} as IndexedSiteMap<T>;
 
     const handleEntriesRecursively = (routeTreeEntries: ISiteMapEntry[], parentCode?: string) => {
         routeTreeEntries.forEach(routeTreeEntry => {
@@ -75,13 +75,13 @@ export function getIndexedSiteMap(siteMap: SiteMap): IndexedSiteMap {
     return routeTreeIndex;
 }
 
-export function initSiteMap(routeGenerators: SiteMapGenerator[]): IInitSiteMap {
+export function initSiteMap<T extends string>(routeGenerators: SiteMapGenerator[]): IInitSiteMap<T> {
 
     const siteMap = generateSiteMap(routeGenerators);
 
     return {
         siteMap,
-        indexedSiteMap: getIndexedSiteMap(siteMap)
+        indexedSiteMap: getIndexedSiteMap<T>(siteMap)
     }
 }
 

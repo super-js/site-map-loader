@@ -35,9 +35,9 @@ export interface IIndexedSiteMapEntry extends Omit<ISiteMapEntry, 'children'> {
     parentCode      : string;
 }
 
-export type IndexedSiteMap = {[routeCode: string] : IIndexedSiteMapEntry};
+export type IndexedSiteMap<T extends string> = {[routeCode in T] : IIndexedSiteMapEntry};
 
-export interface IInitSiteMap {
+export interface IInitSiteMap<T extends string> {
     siteMap: SiteMap;
-    indexedSiteMap: IndexedSiteMap;
+    indexedSiteMap: IndexedSiteMap<T>;
 }
