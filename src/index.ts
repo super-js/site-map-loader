@@ -1,12 +1,13 @@
 import {
     ISiteMapEntry,
-    TSiteMap,
-    TIndexedSiteMap,
+    SiteMap,
+    IndexedSiteMap,
     ISiteMapEntryGenerator,
-    TSiteMapEntryGenerator
+    SiteMapGenerator,
+    IInitSiteMap
 } from "./types";
 
-function generateSiteMap(routeGenerators: TSiteMapEntryGenerator[], parentRouteNode?: ISiteMapEntryGenerator): TSiteMap {
+export function generateSiteMap(routeGenerators: SiteMapGenerator[], parentRouteNode?: ISiteMapEntryGenerator): SiteMap {
     return routeGenerators.reduce((_, generateRouteNodes) => {
 
         const generatedRoutes = generateRouteNodes();
@@ -47,8 +48,8 @@ function generateSiteMap(routeGenerators: TSiteMapEntryGenerator[], parentRouteN
     }, []);
 }
 
-function getIndexedSiteMap(siteMap: TSiteMap): TIndexedSiteMap {
-    let routeTreeIndex = {} as TIndexedSiteMap;
+export function getIndexedSiteMap(siteMap: SiteMap): IndexedSiteMap {
+    let routeTreeIndex = {} as IndexedSiteMap;
 
     const handleEntriesRecursively = (routeTreeEntries: ISiteMapEntry[], parentCode?: string) => {
         routeTreeEntries.forEach(routeTreeEntry => {
@@ -74,6 +75,14 @@ function getIndexedSiteMap(siteMap: TSiteMap): TIndexedSiteMap {
     return routeTreeIndex;
 }
 
-export {
-    getIndexedSiteMap, generateSiteMap
-};
+export function initSiteMap(routeGenerators: SiteMapGenerator[]): IInitSiteMap {
+
+    const siteMap = generateSiteMap(routeGenerators);
+
+    return {
+        siteMap,
+        indexedSiteMap: getIndexedSiteMap(siteMap)
+    }
+}
+
+export * from "./types";

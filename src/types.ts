@@ -15,7 +15,7 @@ export interface ISiteMapEntry {
     exact?              : boolean;
     permissions         : string[];
     label               : TStringResolver;
-    iconName?           : IconName;
+    iconName?           : IconName | string;
     to?                 : TStringResolver;
     onClick?            : Function;
     children?           : ISiteMapEntry[];
@@ -23,16 +23,21 @@ export interface ISiteMapEntry {
     defaultBreadcrumbs? : ISiteMapEntryBreadcrumbs[]
 }
 
-export type TSiteMapEntryGenerator = (() => ISiteMapEntryGenerator[]);
+export type SiteMapGenerator = (() => ISiteMapEntryGenerator[]);
 
 export interface ISiteMapEntryGenerator extends Omit<ISiteMapEntry, 'children'> {
-    children?       : TSiteMapEntryGenerator | TSiteMapEntryGenerator[]
+    children?       : SiteMapGenerator | SiteMapGenerator[]
 }
 
-export type TSiteMap = ISiteMapEntry[];
+export type SiteMap = ISiteMapEntry[];
 
 export interface IIndexedSiteMapEntry extends Omit<ISiteMapEntry, 'children'> {
     parentCode      : string;
 }
 
-export type TIndexedSiteMap = {[routeCode: string] : IIndexedSiteMapEntry};
+export type IndexedSiteMap = {[routeCode: string] : IIndexedSiteMapEntry};
+
+export interface IInitSiteMap {
+    siteMap: SiteMap;
+    indexedSiteMap: IndexedSiteMap;
+}
