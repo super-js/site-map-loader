@@ -1,0 +1,13 @@
+{
+  "name": "@super-js/site-map-loader",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "private": true,
+  "files": ["src"],
+  "devDependencies": {
+    "@types/node": "^13.13.1",
+    "typescript": "^3.8.3",
+    "@fortawesome/fontawesome-svg-core": "^1.2.27"
+  }
+}
