@@ -4,7 +4,7 @@ export type TStringResolver = ((record?: any) => string);
 
 export interface ISiteMapEntryBreadcrumbs {
     label: string;
-    to?: string;
+    to: string;
 }
 
 export interface ISiteMapEntry {
@@ -20,7 +20,7 @@ export interface ISiteMapEntry {
     onClick?            : Function;
     children?           : ISiteMapEntry[];
     path                : string | string[];
-    defaultBreadcrumbs? : ISiteMapEntryBreadcrumbs[]
+    breadcrumbs?        : (contextData?: any) => ISiteMapEntryBreadcrumbs[];
 }
 
 export type SiteMapGenerator = (() => ISiteMapEntryGenerator[]);
