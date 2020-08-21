@@ -15,16 +15,18 @@ export function generateSiteMap(routeGenerators: SiteMapGenerator[], parentRoute
         _.push(...generatedRoutes
             .map(generatedRoute => {
 
-                const {to, path, children, permissions, ...other} = generatedRoute;
+                const {
+                    to = "", path = parentRouteNode ? parentRouteNode.path : "", label = "", children, permissions = [], ...other
+                } = generatedRoute;
 
-                const getPath = _path => `${parentRouteNode ? (Array.isArray(parentRouteNode.path) ?
-                    parentRouteNode.path.join('') : parentRouteNode.path) : ''}${_path}`;
+                // const getPath = _path => `${parentRouteNode ? (Array.isArray(parentRouteNode.path) ?
+                //     parentRouteNode.path.join('') : parentRouteNode.path) : ''}${_path}`;
 
                 const resolvedRoute = {
                     ...other,
-                    to: data => (`${parentRouteNode ? parentRouteNode.to() : ''}${to(data)}`),
-                    path: Array.isArray(path) ?
-                        path.map(getPath) : getPath(path),
+                    to: data => typeof to === "function" ? to(data) : to,
+                    label: data => typeof label === "function" ? label(data) : label,
+                    path,
                     permissions : [
                         ...(parentRouteNode ? parentRouteNode.permissions : []),
                         ...permissions

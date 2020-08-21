@@ -4,7 +4,7 @@ export type TStringResolver = ((record?: any) => string);
 
 export interface ISiteMapEntryBreadcrumbs {
     label: string;
-    to: string;
+    to?: string;
 }
 
 export interface ISiteMapEntry {
@@ -16,7 +16,7 @@ export interface ISiteMapEntry {
     permissions         : string[];
     label               : TStringResolver;
     iconName?           : IconName | string;
-    to?                 : TStringResolver;
+    to                  : TStringResolver;
     onClick?            : Function;
     children?           : ISiteMapEntry[];
     path                : string | string[];
@@ -25,8 +25,12 @@ export interface ISiteMapEntry {
 
 export type SiteMapGenerator = (() => ISiteMapEntryGenerator[]);
 
-export interface ISiteMapEntryGenerator extends Omit<ISiteMapEntry, 'children'> {
-    children?       : SiteMapGenerator | SiteMapGenerator[]
+export interface ISiteMapEntryGenerator extends Omit<ISiteMapEntry, 'children' | 'to' | 'label' | 'permissions' | 'path'> {
+    label?          : TStringResolver | string;
+    to?             : TStringResolver | string;
+    children?       : SiteMapGenerator | SiteMapGenerator[];
+    path?           : string | string[];
+    permissions?    : string[];
 }
 
 export type SiteMap = ISiteMapEntry[];
