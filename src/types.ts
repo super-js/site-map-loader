@@ -5,6 +5,7 @@ export type TStringResolver = ((record?: any) => string);
 export interface ISiteMapEntryBreadcrumbs {
     label: string;
     to?: string;
+    order?: number;
 }
 
 export interface ISiteMapEntry {

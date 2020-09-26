@@ -7,7 +7,15 @@ import {
     IInitSiteMap
 } from "./types";
 
-export function generateSiteMap(routeGenerators: SiteMapGenerator[], parentRouteNode?: ISiteMapEntryGenerator): SiteMap {
+interface GenerateSiteMapOptions {
+    breadCrumbsOrder?: number;
+    parentRouteNode?: ISiteMapEntryGenerator;
+}
+
+export function generateSiteMap(routeGenerators: SiteMapGenerator[], options: GenerateSiteMapOptions = {}): SiteMap {
+
+    let {parentRouteNode, breadCrumbsOrder = 0} = options;
+
     return routeGenerators.reduce((_, generateRouteNodes) => {
 
         const generatedRoutes = generateRouteNodes();
@@ -16,16 +24,20 @@ export function generateSiteMap(routeGenerators: SiteMapGenerator[], parentRoute
             .map(generatedRoute => {
 
                 const {
-                    to = "", path = parentRouteNode ? parentRouteNode.path : "", label = "", children, permissions = [], ...other
+                    to = "", path = parentRouteNode ? parentRouteNode.path : "", label = "", children, permissions = [],
+                    breadcrumbs, ...other
                 } = generatedRoute;
-
-                // const getPath = _path => `${parentRouteNode ? (Array.isArray(parentRouteNode.path) ?
-                //     parentRouteNode.path.join('') : parentRouteNode.path) : ''}${_path}`;
 
                 const resolvedRoute = {
                     ...other,
                     to: data => typeof to === "function" ? to(data) : to,
                     label: data => typeof label === "function" ? label(data) : label,
+                    breadcrumbs: contextData => breadcrumbs(contextData).map((breadcrumbItem) => {
+                        return {
+                            order: breadCrumbsOrder + 1,
+                            ...breadcrumbItem
+                        };
+                    }),
                     path,
                     permissions : [
                         ...(parentRouteNode ? parentRouteNode.permissions : []),
@@ -42,7 +54,10 @@ export function generateSiteMap(routeGenerators: SiteMapGenerator[], parentRoute
 
                 return Object.assign(resolvedRoute, {
                     children : childrenGenerators.length > 0 ?
-                        generateSiteMap(childrenGenerators, resolvedRoute) : []
+                        generateSiteMap(childrenGenerators, {
+                            parentRouteNode: resolvedRoute,
+                            breadCrumbsOrder: breadCrumbsOrder + 1
+                        }) : []
                 });
             }));
 
