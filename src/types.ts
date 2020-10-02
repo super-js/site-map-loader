@@ -14,7 +14,7 @@ export interface ISiteMapEntry {
     isUserMenuEntry?    : boolean;
     isNavigationEntry?  : boolean;
     exact?              : boolean;
-    permissions         : string[];
+    permissionCodes     : string[];
     label               : TStringResolver;
     iconName?           : IconName | string;
     to                  : TStringResolver;
