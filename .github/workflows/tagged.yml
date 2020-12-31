@@ -23,10 +23,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
             ${{ runner.os }}-
-      - run: npm config set "//npm.fontawesome.com/:_authToken" ${{ secrets.FONT_AWESOME }}
+      - run: yarn config set "//npm.fontawesome.com/:_authToken" ${{ secrets.FONT_AWESOME }}
+      - run: yarn config set "//npm.pkg.github.com/:_authToken" ${{ secrets.GITHUB_TOKEN }}
       - run: yarn install --prefer-offline
       - run: yarn run build
-      - run: npm config set "//npm.fontawesome.com/:_authToken" ${{ secrets.GITHUB_TOKEN }}
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
