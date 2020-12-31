@@ -26,6 +26,7 @@ jobs:
       - run: npm config set "//npm.fontawesome.com/:_authToken" ${{ secrets.FONT_AWESOME }}
       - run: yarn install --prefer-offline
       - run: yarn run build
+      - run: npm config set "//npm.fontawesome.com/:_authToken" ${{ secrets.GITHUB_TOKEN }}
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
