@@ -1,4 +1,4 @@
-import {IconName} from "@fortawesome/fontawesome-svg-core";
+import type {IconName} from "@fortawesome/fontawesome-svg-core";
 
 export type TStringResolver = ((record?: any) => string);
 
@@ -46,3 +46,5 @@ export interface IInitSiteMap<T extends string> {
     siteMap: SiteMap;
     indexedSiteMap: IndexedSiteMap<T>;
 }
+
+export type {IconName}
