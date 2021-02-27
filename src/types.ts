@@ -13,6 +13,7 @@ export interface ISiteMapEntry {
     isMainMenuEntry?    : boolean;
     isUserMenuEntry?    : boolean;
     isNavigationEntry?  : boolean;
+    isActionMenuEntry?  : boolean;
     exact?              : boolean;
     permissionCodes     : string[];
     label               : TStringResolver;
@@ -22,6 +23,8 @@ export interface ISiteMapEntry {
     children?           : ISiteMapEntry[];
     path                : string | string[];
     breadcrumbs?        : (contextData?: any) => ISiteMapEntryBreadcrumbs[];
+    condition?          : (contextData?: any) => boolean;
+    groupLabel?         : string;
 }
 
 export type SiteMapGenerator = (() => ISiteMapEntryGenerator[]);
