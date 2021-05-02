@@ -1,6 +1,5 @@
-# site-map-loader
-Site map loader is a core package used by applications to load specific site maps
-in a format that rest of the framework can understand.
+# @super-js/site-map-loader
+Logic to load and maintain site maps defined by individual front and back end applications.
 
-This requires the actual application specific site-map to be defined in a format that
-site-map-loader can understand using interfaces and types declared as part of this package.
+## Site map format
+TBA
